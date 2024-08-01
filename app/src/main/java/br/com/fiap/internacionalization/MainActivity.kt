@@ -27,8 +27,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,6 +61,12 @@ fun Greeting() {
         mutableStateOf("")
     }
 
+    var emailError by remember {
+        mutableStateOf(false)
+    }
+
+    val maxSize = 8
+
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -76,13 +84,13 @@ fun Greeting() {
             ) {
 
                 Text(
-                    text = "Login",
+                    text = stringResource(id = R.string.login),
                     fontSize = 35.sp,
                     color = Color(0xFF2196F3),
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Por favor entre com os seus dados",
+                    text = stringResource(id = R.string.subtitle),
                     fontSize = 15.sp
                 )
                 Spacer(
@@ -97,18 +105,34 @@ fun Greeting() {
                         email = it
                     },
                     label = {
-                        Text(text = "Digite o seu email")
-                    }
+                        Text(text = stringResource(id = R.string.email))
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email
+                    ),
+                    isError = emailError
                 )
+                if (emailError) {
+                    Text(
+                        text = "O email é obrigatório!",
+                        fontSize = 14.sp,
+                        color = Color.Red,
+                        modifier = Modifier
+                                    .fillMaxWidth(),
+                        textAlign = TextAlign.End
+                    )
+                }
                 OutlinedTextField(
                     value = "$password",
                     modifier = Modifier
                                 .fillMaxWidth(),
                     onValueChange = {
-                        password = it
+                        if (it.length <= 8) {
+                            password = it
+                        }
                     },
                     label = {
-                        Text(text = "Digite a sua senha")
+                        Text(text = stringResource(id = R.string.password))
                     },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Password
@@ -119,11 +143,17 @@ fun Greeting() {
                                 .height(15.dp)
                 )
                 Button(
-                    onClick = {  },
+                    onClick = {
+                        if (email.isEmpty()) {
+                            emailError = true;
+                        } else {
+                            emailError = false;
+                        }
+                    },
                     modifier = Modifier
                                 .fillMaxWidth()
                 ) {
-                    Text(text = "ENTRAR")
+                    Text(text = stringResource(id = R.string.enter))
                 }
             }
         }

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Internacionalization</string>
+    <string name="login">Entrar</string>
+    <string name="subtitle">Por favor digite as suas informações</string>
+    <string name="email">Digite o seu email</string>
+    <string name="password">Digite a sua senha</string>
+    <string name="enter">ENTRAR</string>
+</resources>
